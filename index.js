@@ -24,7 +24,7 @@ const distube = new DisTube(client, {
   ]
 });
 
-const prefix = ">";
+const prefix = ".";
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
@@ -39,24 +39,24 @@ client.on("messageCreate", async (message) => {
   const cmd = args.shift().toLowerCase();
 
   // Require user to be in voice channel for music commands
-  if (["play", "skip", "stop", "pause", "resume", "queue"].includes(cmd)) {
+  if (["p", "s", "x", "pause", "resume", "queue"].includes(cmd)) {
     if (!message.member.voice.channel) {
       return message.reply("📌 You must join a voice channel first.");
     }
   }
 
   try {
-    if (cmd === "play") {
+    if (cmd === "p") {
       const query = args.join(" ");
-      if (!query) return message.reply("Usage: `>play <song name or link>`");
+      if (!query) return message.reply("Usage: `.p <song name or link>`");
       await distube.play(message.member.voice.channel, query, {
         textChannel: message.channel,
         message
       });
-    } else if (cmd === "skip") {
+    } else if (cmd === "s") {
       await distube.skip(message);
       message.reply("⏭️ Skipped.");
-    } else if (cmd === "stop") {
+    } else if (cmd === "x") {
       distube.stop(message);
       message.reply("⏹️ Stopped and left the channel.");
     } else if (cmd === "pause") {
